@@ -5,6 +5,9 @@ const int mqtt_port = 1883;
 //cau truc luu data
 const char* topic_sub = "nha/den1";          // Nhận lệnh bật/tắt
 const char* topic_pub = "nha/status/den1";   // Gửi trạng thái hiện tại
+const char* topic_pub_pir = "nha/PIR";  
+const char* topic_volume = "music/volume";  
+
 
 unsigned long previousMillis = 0;
 const long interval = 10000; // 10 giây
@@ -20,3 +23,4 @@ float id = 45;
 
 const int relayPin = 2;     // Relay
 const int pirPin = 14;      // PIR OUT
+

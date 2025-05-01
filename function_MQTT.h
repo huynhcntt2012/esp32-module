@@ -1,14 +1,12 @@
 void publishStatus(bool isOn) {
   String msg = isOn ? "on" : "off";
   client.publish(topic_pub, msg.c_str(), true); // QoS 0, retain true
-  Serial.println("Gửi trạng thái: " + msg);
 }
 void callback(char* topic, byte* payload, unsigned int length) {
   String message;
   for (int i = 0; i < length; i++) {
     message += (char)payload[i];
   }
-  Serial.println("MQTT: " + String(topic) + " = " + message);
 
   if (message == "on") {
     digitalWrite(LED_PIN, HIGH);

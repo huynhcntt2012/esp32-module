@@ -19,6 +19,7 @@ void setup_wifi() {
 }
 
 void main_basic_Setup() {
+  setup_wifi();
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);  // Đèn tắt ban đầu
   
