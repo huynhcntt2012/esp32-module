@@ -1,7 +1,16 @@
-WiFiClient espClient;
+//WiFiClient espClient;
+//PubSubClient client(espClient);
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
+const int RECV_PIN = 15;
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
 void publishStatus(bool isOn);
+void main_DFPlayerMini_Setup(PubSubClient& mqttClient);
+void main_SD_Setup(PubSubClient& mqttClient);
+File audioFile;
 
 WebServer server(80);  
 
@@ -14,8 +23,13 @@ void setup_wifi() {
     delay(300);
   }
   Serial.println("\nWiFi đã kết nối, IP: " + WiFi.localIP().toString());
+}
 
-  
+String getDeviceId() {
+  uint64_t chipid = ESP.getEfuseMac();
+  char id[13];
+  sprintf(id, "%04X%08X", (uint16_t)(chipid>>32), (uint32_t)chipid);
+  return String("esp32_") + id;
 }
 
 void main_basic_Setup() {

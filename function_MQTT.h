@@ -1,6 +1,7 @@
 void publishStatus(bool isOn) {
   String msg = isOn ? "on" : "off";
   client.publish(topic_pub, msg.c_str(), true); // QoS 0, retain true
+  
 }
 void callback(char* topic, byte* payload, unsigned int length) {
   String message;
@@ -23,10 +24,17 @@ void reconnect() {
     if (client.connect("ESP32Client")) {
       Serial.println("thành công");
       client.subscribe(topic_sub);
+      client.subscribe(topic_dfplayer);
+      client.subscribe(topic_motor);
+      client.subscribe(topic_max4466);
+      
+      //main_DFPlayerMini_Setup(client);
+      //main_SD_Setup(client);
     } else {
       Serial.print("Thất bại, mã lỗi: ");
       Serial.println(client.state());
-      delay(2000);
+      
+      
     }
   }
 }
@@ -38,6 +46,7 @@ void publishPirStatus(bool detected) {
 }
 
 void main_MQTT_Setup() {
+  espClient.setCACert(root_ca);
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 }
